@@ -1,0 +1,21 @@
+{
+  "name": "testsel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaryaKashchenko/testSel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaryaKashchenko/testSel/issues"
+  },
+  "homepage": "https://github.com/DaryaKashchenko/testSel#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.27.1"
+  }
+}

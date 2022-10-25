@@ -7,7 +7,7 @@ class worksheetPage {
         this.surname = page.locator('input[name="surname"]')
         this.name = page.locator('input[name="name"]')
         this.errorMessage = page.locator('div[ng-message="required"]')
-        this.patternMessage = page.locator('div[ng-message="pattern"]')
+        this.patternMessage = page.locator('div[ng-message="pattern"]').first()
         this.emptyFieldText = 'Необходимо заполнить это поле'
         this.validationText = 'Поле может содержать только кириллицу, пробел или тире, и должно быть не короче двух символов'
         this.middleName = page.locator('input[name="middlename"]')

@@ -1,4 +1,4 @@
-const {test} = require('@playwright/test')
+const {test,expect} = require('@playwright/test')
 const {poManager} = require('../pageObject/poManager')
 test.describe.configure({ mode: 'parallel' })
 const testData = {email: 'darya.kashenko@gmail.com', password: 'Qwerty123!', latin: 'anna', specialSymbols:'.:.', number: '46832', oneSymbol: 'ф'  }
@@ -19,14 +19,25 @@ test.beforeEach( async ({page}) => {
     await LoginPage.selectUserAgreement()
     await LoginPage.clickFillWorksheetBtn ()
 
-
 })
 
 test.afterEach (async ({page}) => {
     await page.close()
 })
 
-test ('Last name - Empty field check', async ({page}) => {
+test ('Last name - Empty field and invalid symbols check validation - By unclick field', async ({page}) => {
+
+    PoManager = new poManager(page)
+    WorksheetPage = PoManager.getWorksheetPage()
+    await WorksheetPage.checkEmptyFieldSurname()
+    await WorksheetPage.checkInvalidSymbolsSurname(testData.latin)
+    await WorksheetPage.checkInvalidSymbolsSurname(testData.specialSymbols)
+    await WorksheetPage.checkInvalidSymbolsSurname(testData.number)
+    await WorksheetPage.checkInvalidSymbolsSurname(testData.oneSymbol)
+
+})
+
+test ('Last name - Empty field and invalid symbols check - By submit', async ({page}) => {
 
     PoManager = new poManager(page)
     WorksheetPage = PoManager.getWorksheetPage()
@@ -34,54 +45,41 @@ test ('Last name - Empty field check', async ({page}) => {
     await WorksheetPage.fillWorksheetExceptSurname()
     await WorksheetPage.clickSubmitBtn()
     await WorksheetPage.checkMarkedErrorText()
-
-})
-
-test ('Last name - Latin symbols check', async ({page}) => {
-
-    PoManager = new poManager(page)
-    WorksheetPage = PoManager.getWorksheetPage()
+    //check latin value
     await WorksheetPage.checkInvalidSymbolsSurname(testData.latin)
-    await WorksheetPage.fillWorksheetExceptSurname()
     await WorksheetPage.clickSubmitBtn()
     await WorksheetPage.checkMarkedErrorText()
-})
-
-test('Last name - Special symbols check', async ({page}) => {
-
-    PoManager = new poManager(page)
-    WorksheetPage = PoManager.getWorksheetPage()
+    //check special symbols
     await WorksheetPage.checkInvalidSymbolsSurname(testData.specialSymbols)
-    await WorksheetPage.fillWorksheetExceptSurname()
     await WorksheetPage.clickSubmitBtn()
     await WorksheetPage.checkMarkedErrorText()
-
-
-})
-
-test('Last name - Numbers check', async ({page}) => {
-
-    PoManager = new poManager(page)
-    WorksheetPage = PoManager.getWorksheetPage()
+    //number check
     await WorksheetPage.checkInvalidSymbolsSurname(testData.number)
-    await WorksheetPage.fillWorksheetExceptSurname()
+    await WorksheetPage.clickSubmitBtn()
+    await WorksheetPage.checkMarkedErrorText()
+    //check one symbol
+    await WorksheetPage.checkInvalidSymbolsSurname(testData.oneSymbol)
     await WorksheetPage.clickSubmitBtn()
     await WorksheetPage.checkMarkedErrorText()
 
+
+
 })
 
-test('Last name - One symbol check', async ({page}) => {
+test ('First name - Empty field and invalid symbols check - By unclick field', async ({page}) => {
 
     PoManager = new poManager(page)
     WorksheetPage = PoManager.getWorksheetPage()
-    await WorksheetPage.checkInvalidSymbolsSurname(testData.oneSymbol)
-    await WorksheetPage.fillWorksheetExceptSurname()
-    await WorksheetPage.clickSubmitBtn()
-    await WorksheetPage.checkMarkedErrorText()
+    await WorksheetPage.checkEmptyFieldFirstName()
+    await WorksheetPage.checkInvalidName(testData.latin)
+    await WorksheetPage.checkInvalidName(testData.specialSymbols)
+    await WorksheetPage.checkInvalidName(testData.number)
+    await WorksheetPage.checkInvalidName(testData.oneSymbol)
+
 
 })
 
-test ('First name - Empty field check', async ({page}) => {
+test ('First name - Empty field and invalid symbols check - By submit', async ({page}) => {
 
     PoManager = new poManager(page)
     WorksheetPage = PoManager.getWorksheetPage()
@@ -89,50 +87,26 @@ test ('First name - Empty field check', async ({page}) => {
     await WorksheetPage.fillWorksheetExceptName()
     await WorksheetPage.clickSubmitBtn()
     await WorksheetPage.checkMarkedErrorText()
-    await page.pause()
-
-})
-
-test ('First name - Latin symbols check', async ({page}) => {
-
-    PoManager = new poManager(page)
-    WorksheetPage = PoManager.getWorksheetPage()
+    //check latin value
     await WorksheetPage.checkInvalidName(testData.latin)
     await WorksheetPage.fillWorksheetExceptName()
     await WorksheetPage.clickSubmitBtn()
     await WorksheetPage.checkMarkedErrorText()
-})
-
-test ('First name - Special symbols check', async ({page}) => {
-
-    PoManager = new poManager(page)
-    WorksheetPage = PoManager.getWorksheetPage()
+    //check special symbols
     await WorksheetPage.checkInvalidName(testData.specialSymbols)
     await WorksheetPage.fillWorksheetExceptName()
     await WorksheetPage.clickSubmitBtn()
     await WorksheetPage.checkMarkedErrorText()
-
-
-})
-
-test ('First name - Numbers check', async ({page}) => {
-
-    PoManager = new poManager(page)
-    WorksheetPage = PoManager.getWorksheetPage()
+    //check numbers
     await WorksheetPage.checkInvalidName(testData.number)
     await WorksheetPage.fillWorksheetExceptName()
     await WorksheetPage.clickSubmitBtn()
     await WorksheetPage.checkMarkedErrorText()
-
-
-})
-
-test ('First name - One symbol check', async ({page}) => {
-
-    PoManager = new poManager(page)
-    WorksheetPage = PoManager.getWorksheetPage()
+    //check one symbol
     await WorksheetPage.checkInvalidName(testData.oneSymbol)
     await WorksheetPage.fillWorksheetExceptName()
     await WorksheetPage.clickSubmitBtn()
     await WorksheetPage.checkMarkedErrorText()
+
 })
+
